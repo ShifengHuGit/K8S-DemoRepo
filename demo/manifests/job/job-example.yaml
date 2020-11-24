@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: job-example
+spec:
+  backoffLimit: 10
+  completions: 4
+  parallelism: 2
+  template:
+    spec:
+      containers:
+      - name: hello
+        image: alpine:latest
+        command: ["/bin/sh", "-c"]
+        args: ["echo hello from $HOSTNAME! && sleep 10"]
+      #restartPolicy: Never
+      restartPolicy: OnFailure

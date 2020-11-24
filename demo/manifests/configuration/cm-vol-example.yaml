@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cm-vol-example
+spec:
+  containers:
+  - name: mypod
+    image: alpine:latest
+    command: ["/bin/sh", "-c"]
+    args:
+    - while true; do
+      cat /mycity/thisismycity;
+      echo;
+      sleep 2;
+      done
+    volumeMounts:
+    - name: config-volume
+      mountPath: /myconfig
+
+    - name: city
+      mountPath: /mycity
+      readOnly: true
+  volumes:
+  - name: config-volume
+    configMap:
+      name: manifest-example
+  - name: city
+    configMap:
+      name: manifest-example
+      items:
+      - key: city
+        path: thisismycity
